@@ -12,7 +12,7 @@ import com.example.model.http.Multipart
 import com.example.model.request.SampleJsonFormat
 import com.example.model.request.MediaUploadFormData
 
-suspend fun Route.mediaApi(mediaController: MeidaController = MeidaController()){
+fun Route.mediaApi(mediaController: MeidaController = MeidaController()){
 
     post("/json"){
         val jsonData = kotlin.runCatching { call.receive<SampleJsonFormat>() }.getOrElse {
