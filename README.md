@@ -17,13 +17,15 @@ keytool -keystore keystore.jks -alias sampleAlias -genkeypair -keyalg RSA -keysi
 
 기본적인건 완료!
 
-## 도커
+## Docker...
 
 https://ktor.io/docs/docker.html
 
-이거 따라하기
+to save image
 
-https://medium.com/swlh/how-to-deploy-a-ktor-server-using-docker-dd01f4883c30
+mount folder to `/uploads`
+
+example : `/app/uploads:/uploads`
 
 ## auto reload
 
@@ -32,3 +34,4 @@ https://medium.com/swlh/how-to-deploy-a-ktor-server-using-docker-dd01f4883c30
 
 ./gradlew :run
 ```
+
