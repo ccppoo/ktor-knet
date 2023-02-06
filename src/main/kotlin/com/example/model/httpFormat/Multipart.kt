@@ -1,4 +1,4 @@
-package com.example.model.http
+package com.example.model.httpFormat
 
 enum class MultipartType {
     STRING, FILE, BINARY, BINARY_CHANNLE

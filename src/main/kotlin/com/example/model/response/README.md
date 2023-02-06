@@ -1,4 +1,4 @@
-# model / request / response
+# model / response
 
 
 ## HttpResonse.kt

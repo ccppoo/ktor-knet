@@ -1,4 +1,4 @@
-package com.example.model.http
+package com.example.model.httpFormat
 
 enum class FormDataType {
     // TODO : add types like Email-like, phone number-like, ect

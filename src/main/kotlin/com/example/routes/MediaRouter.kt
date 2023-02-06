@@ -7,8 +7,8 @@ import io.ktor.server.request.*
 import io.ktor.http.*
 
 import com.example.controller.MeidaController
-import com.example.model.http.Formdata
-import com.example.model.http.Multipart
+import com.example.model.httpFormat.Formdata
+import com.example.model.httpFormat.Multipart
 import com.example.model.request.SampleJsonFormat
 import com.example.model.request.MediaUploadFormData
 
