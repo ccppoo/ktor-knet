@@ -9,4 +9,9 @@ object Multipart{
         "file" to MultipartType.STRING,
         "name" to MultipartType.STRING
     )
+
+    val UploadImageFromPost = mapOf(
+        "file" to MultipartType.FILE,
+        "test" to MultipartType.STRING
+    )
 }

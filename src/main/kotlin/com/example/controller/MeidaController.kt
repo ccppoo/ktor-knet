@@ -1,18 +1,22 @@
 package com.example.controller
 
-import com.example.model.request.SampleJsonFormat
+import java.io.File
 
 class MeidaController {
 
-    fun SampleHandleMultiFormData(data : Map<String, String>){
-        Unit
+    fun isFileValid(file : File) : Boolean {
+        // if false, delete file
+        return true
     }
 
-    fun SampleHandleFormData(data: Map<String, Any>) {
-        Unit
-    }
+    fun getNewURLPath(file:File) : String {
 
-    fun SampleHandleJson(data : SampleJsonFormat){
-        Unit
+        // TODO : file naming logic
+        val newName = "new_${file.name}"
+        val newFile = File(file.parentFile,newName )
+
+        file.renameTo(newFile)
+
+        return newName
     }
 }

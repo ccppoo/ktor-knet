@@ -19,7 +19,6 @@ fun Application.configureRouting(
         }
 
         pingApi()
-        mediaApi()
-        StaticContentAPI(basePath=basePath)
+        mediaApi(basePath)
     }
 }

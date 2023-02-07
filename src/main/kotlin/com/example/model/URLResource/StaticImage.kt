@@ -9,8 +9,3 @@ class StaticImages(){
     class withName(val parent: StaticImages = StaticImages(), val name : String?)
 
 }
-
-
-sealed class A(){
-
-}

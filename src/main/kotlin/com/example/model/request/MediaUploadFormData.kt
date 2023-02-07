@@ -12,10 +12,11 @@ object MediaUploadFormData {
     suspend open fun handleMultipartItem(partData: PartData.FormItem) : String?{
         // override and make method to hanlde data
         // for example, if key name is wrong skip (return null)
+        println("partData.value : ${partData.value}")
         return partData.value
     }
 
-    suspend open fun handleMultipartFile(partData: PartData.FileItem) : String?{
+    suspend open fun handleMultipartFile(partData: PartData.FileItem) : String {
         // TODO : Fix behavior when file is uploaded (for exmaple, check extension or save or not)
         // TODO : make this able to override by user behavior
         // return `file path`(string) after saving file that client uploaded
@@ -27,10 +28,14 @@ object MediaUploadFormData {
     }
 
     suspend fun from(multiPartData : MultiPartData, mappedLike : Map<String, MultipartType>) : Map<String, String>{
-        val tempMap = mutableMapOf<String,String>();
+        return this.from(multiPartData, mappedLike, ::handleMultipartFile)
+    }
 
+    suspend fun from(multiPartData : MultiPartData, mappedLike : Map<String, MultipartType>, fileItemHandler : suspend (PartData.FileItem) -> String?) : Map<String, String>{
+        val tempMap = mutableMapOf<String,String>();
         multiPartData.forEachPart { part ->
             // return if key name doesn't match
+            println("part.name : ${part.name}")
             mappedLike[part.name] ?: return@forEachPart
             when (part){
                 is PartData.FormItem -> {
@@ -38,7 +43,7 @@ object MediaUploadFormData {
                     tempMap[part.name!!] = value
                 }
                 is PartData.FileItem -> {
-                    val value : String = this.handleMultipartFile(part) ?: return@forEachPart
+                    val value : String = fileItemHandler(part) ?: return@forEachPart
                     tempMap[part.name!!] = value
                 }
                 is PartData.BinaryItem -> {
