@@ -4,24 +4,23 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.example.auth.AuthController
+import com.example.auth.UserPrinciple
+import com.example.securityConfig
 import io.ktor.server.application.*
 
-fun Application.configureSecurity() {
+
+fun Application.configureSecurity(
+    jwtController: AuthController = AuthController(this.securityConfig)
+) {
     
     authentication {
-            jwt {
-                val jwtAudience = this@configureSecurity.environment.config.property("jwt.audience").getString()
-                realm = this@configureSecurity.environment.config.property("jwt.realm").getString()
-                verifier(
-                    JWT
-                        .require(Algorithm.HMAC256("secret"))
-                        .withAudience(jwtAudience)
-                        .withIssuer(this@configureSecurity.environment.config.property("jwt.domain").getString())
-                        .build()
-                )
-                validate { credential ->
-                    if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
-                }
+        jwt {
+            verifier(jwtController.verifier)
+
+            validate { credential ->
+                if (credential.issuer != null) UserPrinciple(credential.issuer!!) else null
             }
         }
+    }
 }
