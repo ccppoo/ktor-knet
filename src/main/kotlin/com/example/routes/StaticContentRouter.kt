@@ -24,7 +24,7 @@ fun Route.StaticContentAPI(
         get<StaticImages.withName> { staticImages ->
             val file = File(basePath, "/uploads/${staticImages.name}")
 
-            call.parameters.
+//            call.parameters.
             call.response.header(
                 HttpHeaders.ContentDisposition,
                 ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, "ktor_logo.png").toString()
