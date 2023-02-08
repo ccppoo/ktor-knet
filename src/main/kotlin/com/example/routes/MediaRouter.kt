@@ -27,20 +27,13 @@ data class ImageAccepted(val imageURL : String)
 @Serializable
 data class ImageNotAccepted(val reason : String)
 
+@Serializable
+data class ImageNotFound(val message : String = "Image not found")
 
 fun Route.mediaApi(
     basePath : File,
     mediaController: MeidaController = MeidaController()
 ){
-    val fileSaveHandler : suspend (PartData.FileItem) -> String = { fileItem ->
-        val fileName = fileItem.originalFileName as String
-        val fileBytes = fileItem.streamProvider().readBytes()
-        val file = File(basePath, "uploads/$fileName")
-        file.writeBytes(fileBytes)
-        println("씨빨 !!! ${file.toString()}")
-        file.toString()
-    }
-
     authenticate {
         /**
          * 사진 불러올 때
@@ -48,12 +41,20 @@ fun Route.mediaApi(
         get<StaticImages.withName> { staticImages ->
             val file = File(basePath, "/uploads/${staticImages.name}")
 
-            val params : Parameters = call.parameters
-            println(call.parameters["size"])
+//            val params : Parameters = call.parameters
+//            println(call.parameters["size"])
+
+            if(!file.exists()){
+                call.response.status(HttpStatusCode.NotFound)
+                call.respond(ImageNotFound())
+                return@get
+            }
 
             call.response.header(
                 HttpHeaders.ContentDisposition,
-                ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, "ktor_logo.png").toString()
+                ContentDisposition.Attachment.withParameter(
+                    ContentDisposition.Parameters.FileName,
+                    staticImages.name.toString()).toString()
             )
             call.response.status(HttpStatusCode.OK)
             call.respondFile(file)
@@ -65,7 +66,6 @@ fun Route.mediaApi(
         post("/img/post"){
             val multipart = call.receiveMultipart()
             val tlqkf = MediaUploadFormData.from(multipart, Multipart.UploadImageFromPost)
-            println(tlqkf)
             val userSentFile = File(tlqkf["file"]!!)
 
             if (!mediaController.isFileValid(userSentFile)) {
