@@ -33,15 +33,17 @@ example : `/app/uploads:/uploads`
 docker build -t knet-ktor:latest .
 
 # 컨맨드 실행한 디렉토리 내부의 uploads 폴더에 저장됨
-docker run --rm -p 8010:8010 -v path/to/save/image:/app/uploads knet-ktor
+docker run --rm -p 8010:8010 -d -v path/to/save/image:/app/uploads knet-ktor
 
 # Windows 의 경우 예시
-docker run --rm -p 8010:8010 -v C:\Users\<USER_NAME>\Documents\test:/app/uploads knet-ktor
+docker run --rm -p 8010:8010 -d -v C:\Users\<USER_NAME>\Documents\test:/app/uploads knet-ktor
 ```
 
 ## auto reload
 
-`intellj`로 실행 (`Shift+F10`) 누르고 `Terminal`에서 실행
+`intellj`로 실행 (`Shift+F10`)하고 **동시에** 
+
+터미널에서 아래 커맨드 실행
 
 ```ps
 ./gradlew -t build -x test -i
