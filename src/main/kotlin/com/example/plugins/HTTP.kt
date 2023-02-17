@@ -18,12 +18,16 @@ fun Application.configureHTTP() {
         header("X-Engine", "Ktor") // will send this header with each response
     }
     install(CORS) {
+
         allowMethod(HttpMethod.Options)
         allowMethod(HttpMethod.Put)
         allowMethod(HttpMethod.Delete)
         allowMethod(HttpMethod.Patch)
+        allowMethod(HttpMethod.Post)
+
         allowHeader(HttpHeaders.Authorization)
         allowHeader("MyCustomHeader")
+        allowCredentials = true // 이걸 해야 쿠키 주고 받을 수 있음
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
     }
 }

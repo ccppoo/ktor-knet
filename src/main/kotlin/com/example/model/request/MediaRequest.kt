@@ -1,6 +1,5 @@
 package com.example.model.request
 
-import io.ktor.http.content.*
 import kotlinx.serialization.Serializable
 
 // JSON 형태로 받으려면 이렇게
